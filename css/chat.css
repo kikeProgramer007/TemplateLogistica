@@ -1,0 +1,315 @@
+/* =============== CHAT LIVE =============== */
+
+/* BOTONES DE ABRIR Y CERRAR CHAT EN VIVO */
+.chatbot-toggler {
+  position: fixed;
+  bottom: 30px;
+  right: 24px;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1000;
+  background: #40658a;
+  transition: all 0.2s ease;
+}
+body.show-chatbot .chatbot-toggler {
+  transform: rotate(90deg);
+}
+.chatbot-toggler span {
+  color: #fff;
+  position: absolute;
+  font-size: 1.2rem;
+  
+  transform: scaleX(-1);
+
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+}
+.chatbot-toggler span:last-child,
+body.show-chatbot .chatbot-toggler span:first-child  {
+  opacity: 0;
+}
+body.show-chatbot .chatbot-toggler span:last-child {
+  opacity: 1;
+}
+.chatbot {
+  position: fixed;
+  right: 35px;
+  bottom: 90px;
+  top: auto;
+  max-width: 350px;
+  max-height: calc(100vh - 100px);
+  width: 100%;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: bottom right;
+  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
+              0 32px 64px -48px rgba(0,0,0,0.5);
+  transition: all 0.1s ease;
+}
+body.show-chatbot .chatbot {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+/* .chatbot header {
+  padding: 16px 0;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  background: #724ae8;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+} */
+
+/* CABECERA CHAT */
+
+.chatbot header{
+    display: flex;
+    align-items: center;
+    padding: 10px 30px 10px 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    /* background: #1F2667; */
+    background: #40658a ;/*#21618C;*/
+}
+
+.chatbot header img{
+  height: 45px;
+  width: 45px;
+  margin: 0 15px 0 0;
+  border: 2px solid #21618C;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.chatbot header .details span{
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+.chatbot header .close-boton span {
+  position: absolute;
+  right: 20px;
+  /* top: 50%; */
+  font-size: 24px;
+  display: none;
+  cursor: pointer;
+  transform: translateY(-50%);
+  color: #fff;
+}
+
+.chatbot header .details p{
+  padding-bottom: 0rem !important;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* CUERPO CHAT */
+
+.chatbot .chatbox {
+  overflow-y: auto;
+  height: 450px;
+  padding: 15px 20px 100px; 
+
+  /* position: relative; 
+/* min-height: 500px;
+max-height: 500px; */
+/* padding: 10px 30px 20px 30px; */
+background: #f7f7f7;
+box-shadow: inset 0 32px 32px -32px rgb(0 0 0 / 5%),
+            inset 0 -32px 32px -32px rgb(0 0 0 / 5%);
+
+}
+/* .chatbot .chatbox {
+  height: 90%;
+  padding: 25px 15px 100px;
+} */
+
+
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar {
+  width: 6px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 25px;
+}
+.chatbot :where(.chatbox, textarea)::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 25px;
+}
+.chatbox .chat {
+  display: flex;
+  list-style: none;
+
+  margin: 15px 0;
+/* este yo coloque   */
+
+}
+
+
+
+
+
+
+.chatbox .outgoing{
+    /* margin: 20px 0;
+    justify-content: flex-end; */
+    display: flex;
+  }
+  .chatbox .outgoing .details{
+    margin-left: auto;
+    max-width: calc(100% - 75px);
+  }
+  .outgoing .details p{
+    background: #40658a;
+    color: #fff;
+    border-radius: 18px 18px 0 18px;
+  }
+  .chatbox .outgoing p {
+    font-size: 12px;
+  }
+
+.chatbox .chat p {
+  /* white-space: pre-wrap; */
+  /* padding: 12px 16px; */
+  /* border-radius: 10px 10px 0 10px; */
+  /* max-width: 75%; */
+  color: #fff;
+  font-size: 0.75rem;
+  /* background: #724ae8; */
+
+/* este yo coloque   */
+    word-wrap: break-word;
+    padding: 8px 16px;
+    box-shadow: 0 0 32px rgb(0 0 0 / 8%),
+                0rem 16px 16px -16px rgb(0 0 0 / 10%);
+ 
+}
+
+.chatbox .incoming{
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .chatbox .incoming .details{
+    margin-right: auto;
+    margin-left: 10px;
+    max-width: calc(100% - 75px);
+  }
+  .incoming .details p{
+    background: #fff;
+    color: #333;
+    border-radius: 18px 18px 18px 0;
+}
+
+
+.chatbox .incoming img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+    /* color: #fff; */
+  /* cursor: default;
+  text-align: center;
+  line-height: 32px;
+  align-self: flex-end;
+  margin: 0 10px 7px 0; */
+}
+
+.chatbox .incoming p {
+  /* border-radius: 10px 10px 10px 0; */
+  font-size: 12px;
+}
+.chatbox .chat p.error {
+  color: #721c24;
+  background: #f8d7da;
+}
+
+.chatbot .chat-input {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding: 3px 20px;
+  border-top: 1px solid #ddd;
+}
+.chat-input textarea {
+  height: 55px;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  max-height: 180px;
+  padding: 15px 15px 15px 0;
+  font-size: 0.95rem;
+}
+.chat-input span {
+  align-self: flex-end;
+  color: #40658a;
+  cursor: pointer;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  font-size: 1.35rem;
+}
+.chat-input span:hover {
+  color: #1F2667;
+}
+
+.chat-input textarea:valid ~ span {
+  visibility: visible;
+}
+
+/* RESPONSIVE */
+@media (min-width: 320px) and (max-width: 767px){
+  .chatbot-toggler {
+    right: 24px;
+    bottom: 20px;
+  }
+  .chatbot {
+    right: 0;
+    bottom: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+    max-width: max-content;
+    max-height: max-content;
+  }
+ 
+  .chatbot .chatbox {
+      height: 100%;
+      max-width: 100%;
+      padding-bottom: 200px;
+  }
+
+  .chatbot .chat-input {
+    padding: 5px 15px;
+  }
+  .chatbot header .close-boton span {
+    display: block;
+  }
+
+  /* yo coloque esto manualmente */
+  .chatbox .incoming .details{
+    max-width: 265px;
+  }
+  .incoming .details img{
+    height: 30px;
+    width: 30px;
+  }
+}
+
+

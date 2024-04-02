@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -29,6 +29,20 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet'/>
+
 </head>
 
 <body>
@@ -218,12 +232,18 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-6 wow slideInUp" data-wow-delay="0.6s">
+                <!-- <div class="col-lg-6 wow slideInUp" data-wow-delay="0.6s">
                     <iframe class="position-relative rounded w-100 h-100"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
                         frameborder="0" style="min-height: 350px; border:0;" allowfullscreen="" aria-hidden="false"
                         tabindex="0"></iframe>
+                </div> -->
+                <div class="col-lg-6 wow slideInUp" data-wow-delay="0.6s">
+                    <div class="position-relative rounded w-100 h-100" id="map"></div>
                 </div>
+
+               
+
             </div>
         </div>
     </div>
@@ -415,8 +435,85 @@
 
     
     <!-- Inicio del código incrustado de HubSpot --> 
-    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/45689888.js"> </script>
+    <!-- <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/45689888.js"> </script> -->
      <!-- Fin del código para insertar de HubSpot -->
+
+
+     <script>
+
+                    
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+     
+            let map = L.map('map', {fullscreenControl: true}).setView([-17.783613091554606, -63.1809288406372], 12); //Latitud, longitud y zoom
+
+            var osm =   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            });
+
+            osm.addTo(map);
+
+  
+            // GoogleMap Layer
+            googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                maxZoom: 20,
+                subdomains:['mt0','mt1','mt2','mt3']
+            });
+            googleStreets.addTo(map);
+
+            // Satelite Layer
+            googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
+            });
+            googleSat.addTo(map);
+
+            /*===================================================
+                    LAYER CONTROL               
+                ===================================================*/
+
+                var baseLayers = {
+                    "OpenStreetMap": osm,
+                    "Satellite":googleSat,
+                    "Google Map":googleStreets,
+                };
+
+            
+
+            L.control.layers(baseLayers).addTo(map);
+
+
+                var marker_cerro = L.marker(L.latLng(-17.783613091554606, -63.1809288406372), {
+                opacity:1,
+                draggable: false //true: mueve el puntero de la ubicacion
+                }).addTo(map);
+
+                marker_cerro.bindPopup(
+                    "<div style=''class='d-flex row'><div class='p-0'><div class='row me-0 ms-0'><span class='border-bottom p-0 fw-bold'>QUANTUM LOG´S S.R.L.</span></div><div class='row px-1'><div class='col-3 pt-3'> <img class='border border-default' src='img/logos/logo_map.jpg' height='60' lass='m-0' alt='' ></div><div class='small lh-sm col-9'><p class='pt-2 mt-0'>Calle Rio Forus Nº 3375 Barrio Hamacas Entre Av. Alemana y Av. Beni, Santa Cruz, Bolivia.<br>Horarios de Atención:<br>Lunes a Viernes: 8:30 - 12:00, 2:30 - 19:00; Sabados: 9:00 - 12:00.</p></div><div class='input-group m-0 input-group-sm'><input type='text' class='form-control' id='url' value='https://www.google.com/maps?q=-17.753511,-63.166660' readonly><button class='btn btn-primary' type='button' id='copyButton' data-bs-toggle='tooltip' data-bs-placement='top' onclick='copiar()'>Copiar</button></div></div></div></div>"
+                ).openPopup();
+             
+                
+                // Función para copiar el contenido del input al portapapeles y mostrar el tooltip correspondiente
+                function copiar() {
+                    var urlInput = document.getElementById('url');
+                    urlInput.select();
+                    document.execCommand('copy');
+                    var tooltip = new bootstrap.Tooltip(document.getElementById('copyButton'));
+                    tooltip.dispose(); // Reinicia el tooltip
+                    tooltip = new bootstrap.Tooltip(document.getElementById('copyButton'), { title: 'Copiado!', trigger: 'manual' });
+                    tooltip.show();
+                        // Oculta el tooltip "Copiado!" después de 1 segundo
+                setTimeout(function() {
+                        tooltip.hide();
+                    }, 1000);
+                }
+
+
+            </script>
 </body>
 
 </html>
